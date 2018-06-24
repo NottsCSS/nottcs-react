@@ -38,17 +38,9 @@ const ListViewItemWithImageStyle = StyleSheet.create({
 })
 
 class EventFeedPage extends Component {
-
-    _accentColor = this.props.accentColor;
-
-    static propTypes = {
-        accentColor: PropTypes.string.isRequired
-    }
-
     render() {
         return (
             <View style={EventFeedPageStyle.container}>
-                <View height={StatusBar.currentHeight.valueOf()} backgroundColor={this._accentColor}/>
                 <ScrollView style={EventFeedPageStyle.container}>
                     <ListViewItemWithImage/>
                     <ListViewItemWithImage/>
@@ -69,6 +61,10 @@ class EventFeedPage extends Component {
 const EventFeedPageStyle = StyleSheet.create({
     container: {
         flex: 1
+    },
+    title: {
+        fontSize: 30,
+        fontWeight: 'bold',
     }
 })
 
