@@ -1,50 +1,24 @@
 import React, { Component } from 'react';
-import { View, Image, Text, StyleSheet, StatusBar, FlatList } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import GridView from 'react-native-super-grid';
 
-import { Card } from 'react-native-elements';
+import GridViewItemWithImage from '../components/GridViewItemWithImage'
 
 const ExampleData = [
-    {id: 1, title: 'Item 1', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 2, title: 'Item 2', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 3, title: 'Item 3', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 4, title: 'Item 4', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 5, title: 'Item 5', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 6, title: 'Item 6', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 7, title: 'Item 7', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 8, title: 'Item 8', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 9, title: 'Item 9', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 10, title: 'Item 10', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 11, title: 'Item 11', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 12, title: 'Item 12', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
-    {id: 13, title: 'Item 13', imageSource: 'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'},
+    {id: 1, title: 'Computer Science Society', imageSource: 'http://sanottingham.org//wp-content/uploads/Computer-science-society-logo.png'},
+    {id: 2, title: `Nott's Makers`, imageSource: 'http://sanottingham.org//wp-content/uploads/2015/07/13925537_1111562382270994_8102554198483220907_o.jpg'},
+    {id: 3, title: 'Accounting and Finance Society UNMC', imageSource: 'http://sanottingham.org//wp-content/uploads/accounting-finance-society-logo-2-unmc.jpg'},
+    {id: 4, title: 'Robotics Society', imageSource: 'http://sanottingham.org//wp-content/uploads/UNMC-CRS.png'},
+    {id: 5, title: 'Digital Arts Guild', imageSource: 'http://sanottingham.org//wp-content/uploads/DAG-Logo1.png'},
+    {id: 6, title: 'Gaming Society', imageSource: 'http://sanottingham.org//wp-content/uploads/Gaming-Society-Logo.png'},
+    {id: 7, title: 'NDC', imageSource: 'http://sanottingham.org//wp-content/uploads/NDC-NEW-LOGO.png'},
+    {id: 8, title: 'IEM', imageSource: 'http://sanottingham.org//wp-content/uploads/2015/07/IEM-UNMC-Student-Section.png'},
+    {id: 9, title: 'Enactus UNMC', imageSource: 'http://sanottingham.org//wp-content/uploads/Enactus-Logo.png'},
+    {id: 10, title: 'Japanese Cultural Society', imageSource: 'http://sanottingham.org//wp-content/uploads/Japanese-Cultural-Society-Logo.png'},
+    {id: 11, title: 'Chinese Cultural Society', imageSource: 'http://sanottingham.org//wp-content/uploads/Chinese-Cultural-Society-Logo.png'},
+    {id: 12, title: 'ACE Society', imageSource: 'http://sanottingham.org//wp-content/uploads/ACE-Logo.png'},
+    {id: 13, title: 'Music Society', imageSource: 'http://sanottingham.org//wp-content/uploads/Mussoc.png'},
 ]
-
-const GridViewItemWithImage = ({imageSource, title}) => {
-    return (
-        <Card image={{uri: imageSource}}
-            containerStyle={GridViewItemWithImageStyle.container}>
-            <View>
-                <Text style={GridViewItemWithImageStyle.title}>{title}</Text>
-            </View>
-        </Card>
-    );
-}
-
-const GridViewItemWithImageStyle = StyleSheet.create({
-    container: {
-        margin: 1,
-        flex: 1,
-    },
-    image: {
-        height: 90,
-        width: 90
-    },
-    title: {
-        fontSize: 20,
-        textAlign: 'center'
-    }
-});
 
 class ClubListPage extends Component {
     render() {

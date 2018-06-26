@@ -13,3 +13,10 @@ export const setPageTitle = (pageTitle) => {
         pageTitle
     }
 }
+
+export const setRootStack = (navigation) => {
+    return {
+        type: ActionTypes.SET_ROOT_STACK,
+        navigator
+    }
+}

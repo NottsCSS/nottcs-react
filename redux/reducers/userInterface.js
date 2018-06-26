@@ -2,7 +2,8 @@ import * as ActionTypes from '../action-types/userInterface';
 
 const InitialState = {
     pageTitle: 'NottCS',
-    accentColor: ''
+    accentColor: '',
+    navigator: {},
 }
 
 export const userInterface = (state = InitialState, action) => {
@@ -12,6 +13,9 @@ export const userInterface = (state = InitialState, action) => {
         }
         case ActionTypes.SET_PAGE_TITLE: {
             return Object.assign({}, state, {pageTitle: action.pageTitle});
+        }
+        case ActionTypes.SET_ROOT_STACK: {
+            return Object.assign({}, state, {navigation: action.navigator});
         }
         default: {
             return state;

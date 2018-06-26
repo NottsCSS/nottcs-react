@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { ListItem, Card } from 'react-native-elements';
-import ChangeCase from 'change-case';
+import { View } from 'react-native';
+import ProfileCard from '../components/ProfileCard';
+import DetailList from '../components/DetailList';
 
 const ExampleData = {
     name: 'Eagle',
@@ -11,76 +11,6 @@ const ExampleData = {
     major: 'Electrical and Electronics Engineering',
     year: 2,
 }
-
-const ProfileCard = ({imageSource, title}) => {
-    return (
-        <View style={ProfileCardStyle.container}>
-            <Card image={{uri: imageSource}}
-                imageStyle={ProfileCardStyle.image}
-                containerStyle={ProfileCardStyle.card}>
-                <View>
-                    <Text style={ProfileCardStyle.title}>{title}</Text>
-                </View>
-            </Card>  
-        </View>
-
-    )
-}
-
-const ProfileCardStyle = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    card: {
-        width: 150,
-    },
-    title: {
-        textAlign: 'center',
-        fontSize: 20,
-        fontWeight: 'bold'
-    },
-    image: {
-        height: 150,
-        width: 150
-    }
-})
-
-
-const DetailList = ({details}) => {
-
-    let detailList = Object.keys(details).map(key => {
-        let newObject = {};
-        newObject[key] = details[key];
-
-        return newObject;
-    });
-
-    return (
-        <ScrollView style={DetailListStyle.scroll}>
-            {
-                detailList.map((detail, index) => {
-                    let key = Object.keys(detail)[0];
-                    let title = ChangeCase.titleCase(key);
-                    let subtitle = detail[key];
-                    return (
-                        <ListItem key={index} title={title} subtitle={subtitle} hideChevron/>
-                    );
-                })
-            }
-        </ScrollView>
-    )
-}
-
-const DetailListStyle = StyleSheet.create({
-    scroll: {
-        flex: 1,
-    },
-    container: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
 
 class ProfilePage extends Component {
     render() {

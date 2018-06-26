@@ -12,6 +12,8 @@ import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
 import {userInterface} from './redux/reducers/userInterface'
 import Page from './components/Page';
+import SettingsPage from './pages/SettingsPage';
+import NavigationService from './services/NavigationService'
 
 
 const APP_NAME = 'NottCS';
@@ -23,6 +25,8 @@ const PROFILE = 'profile';
 const EVENT_FEED_TITLE = 'Event Feed';
 const CLUB_LIST_TITLE = 'Club List';
 const PROFILE_TITLE = 'Profile';
+const LOGIN_TITLE = 'Login NottCS';
+const SETTINGS_TITLE = 'App Settings';
 
 const EVENT_FEED_ICON = 'feed';
 const CLUB_LIST_ICON = 'star';
@@ -31,6 +35,28 @@ const PROFILE_ICON = 'user-circle';
 const EVENT_FEED_ACCENT = '#4c4cff';
 const CLUB_LIST_ACCENT = '#6666ff';
 const PROFILE_ACCENT = '#7f7fff';
+const DEFAULT_ACCENT = 'purple';
+
+class EventPage extends React.Component {
+
+	state={
+		params: null
+	}
+
+	componentDidMount() {
+		console.log('component mounted');
+		let params = NavigationService.getParams();
+		this.setState(Object.assign({}, this.state, {params: params}));
+	}
+
+	render() {
+		return (
+			<View>
+				<Text>This is event page for: { this.state.params && this.state.params.event.title }</Text>
+			</View>
+		);
+	}
+}
 
 const TabBarIcon = (type) => {
 
@@ -47,13 +73,15 @@ const TabBarIcon = (type) => {
 	);
 }
 
-const LoginPage = ({navigation}) => {
-	return (
-		<View style={LoginPageStyle.container}>
-			<Text style={LoginPageStyle.appName}>{APP_NAME}</Text>
-			<Button title="Login" onPress={() => navigation.navigate('home')}/>
-		</View>
-	)
+class LoginPage extends React.Component {
+	render() {
+		return (
+			<View style={LoginPageStyle.container}>
+				<Text style={LoginPageStyle.appName}>{APP_NAME}</Text>
+				<Button title="Login" onPress={() => this.props.navigation.navigate('home')}/>
+			</View>
+		)
+	}
 }
 
 const LoginPageStyle = StyleSheet.create({
@@ -72,7 +100,7 @@ const LoginPageStyle = StyleSheet.create({
 
 const HomeStack = createMaterialBottomTabNavigator({
 	eventFeed: {
-		screen: () => <Page _accentColor={EVENT_FEED_ACCENT} pageName={EVENT_FEED_TITLE}><EventFeedPage/></Page> ,
+		screen: ({navigation}) => <Page showActionButtons accentColor={EVENT_FEED_ACCENT} pageName={EVENT_FEED_TITLE} navigation={navigation}><EventFeedPage/></Page> ,
 		navigationOptions: {
 			title: EVENT_FEED_TITLE,
 			tabBarIcon: TabBarIcon(EVENT_FEED),
@@ -80,7 +108,7 @@ const HomeStack = createMaterialBottomTabNavigator({
 		}
 	},
 	clubList: {
-		screen: () => <Page _accentColor={CLUB_LIST_ACCENT} pageName={CLUB_LIST_TITLE}><ClubListPage/></Page>,
+		screen: ({navigation}) => <Page showActionButtons accentColor={CLUB_LIST_ACCENT} pageName={CLUB_LIST_TITLE} navigation={navigation}><ClubListPage/></Page>,
 		navigationOptions: {
 			title: CLUB_LIST_TITLE,
 			tabBarIcon: TabBarIcon(CLUB_LIST),
@@ -88,13 +116,13 @@ const HomeStack = createMaterialBottomTabNavigator({
 		}
 	},
 	profile: {
-		screen: () => <Page _accentColor={PROFILE_ACCENT} pageName={PROFILE_TITLE}><ProfilePage/></Page>,
+		screen: ({navigation}) => <Page showActionButtons accentColor={PROFILE_ACCENT} pageName={PROFILE_TITLE} navigation={navigation}><ProfilePage/></Page>,
 		navigationOptions: {
 			title: PROFILE_TITLE,
 			tabBarIcon: () => TabBarIcon(PROFILE),
 			tabBarColor: PROFILE_ACCENT
 		}
-	}
+	},
 },
 {
 	initialRouteName: 'eventFeed',
@@ -103,11 +131,17 @@ const HomeStack = createMaterialBottomTabNavigator({
 
 const RootStack = createStackNavigator({
 	login: {
-		screen: LoginPage,
+		screen: ({navigation}) => <Page accentColor={DEFAULT_ACCENT} pageName={LOGIN_TITLE}><LoginPage navigation={navigation}/></Page>,
 	},
 	home: {
-		screen: ({navigation}) => <HomeStack/>
+		screen: () => <HomeStack/>
 	},
+	settings: {
+		screen: ({navigation}) => <Page accentColor={DEFAULT_ACCENT} pageName={SETTINGS_TITLE}><SettingsPage navigation={navigation}/></Page>,
+	},
+	event: {
+		screen: ({navigation}) => <Page accentColor={EVENT_FEED_ACCENT} pageName={NavigationService.getParams().event.title}><EventPage/></Page>
+	}
 },
 {
 	initialRouteName: 'login',
@@ -118,7 +152,8 @@ class AppFrame extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<RootStack dispatch={this.props.dispatch}/>
+				<RootStack dispatch={this.props.dispatch}
+					ref={navigationRef => {NavigationService.setTopLevelNavigator(navigationRef)}}/>
 			</View>
 		);
 	}
