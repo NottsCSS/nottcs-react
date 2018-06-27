@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableNativeFeedback } from 'react-native';
 import GridView from 'react-native-super-grid';
 
 import GridViewItemWithImage from '../components/GridViewItemWithImage'
+import NavigationService from '../services/NavigationService'
 
 const ExampleData = [
     {id: 1, title: 'Computer Science Society', imageSource: 'http://sanottingham.org//wp-content/uploads/Computer-science-society-logo.png'},
@@ -26,7 +27,13 @@ class ClubListPage extends Component {
             <View style={ClubListPageStyle.container}>
                 <GridView itemDimension={120}
                     items={ExampleData}
-                    renderItem={item => <GridViewItemWithImage imageSource={item.imageSource} title={item.title}/>}/>
+                    renderItem={item => 
+                        <TouchableNativeFeedback onPress={() => NavigationService.navigate('club', {club: item})}>
+                            <View>
+                                <GridViewItemWithImage imageSource={item.imageSource} title={item.title}/>
+                            </View>
+                        </TouchableNativeFeedback>
+                    }/>
             </View>
         );
     }
