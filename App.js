@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, TouchableNativeFeedback } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, TouchableNativeFeedback, TextInput } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { FontAwesome } from 'react-native-vector-icons';
@@ -10,12 +10,11 @@ import ProfilePage from './pages/ProfilePage';
 
 import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
-import {userInterface} from './redux/reducers/userInterface'
+import {userInterface} from './redux/reducers/userInterface';
 import Page from './components/Page';
 import SettingsPage from './pages/SettingsPage';
-import NavigationService from './services/NavigationService'
-import { Tile } from 'react-native-elements';
-import Modal from 'react-native-modal';
+import NavigationService from './services/NavigationService';
+import EventPage from './pages/EventPage';
 
 
 const APP_NAME = 'NottCS';
@@ -53,75 +52,6 @@ class ClubPage extends React.Component {
 		)
 	}
 }
-
-class EventPage extends React.Component {
-
-	state={
-		params: null,
-		posterModalVisible: false,
-		signUpModalVisible: false,
-	}
-
-	componentDidMount() {
-		let params = NavigationService.getParams();
-		this.setState(Object.assign({}, this.state, {params: params}));
-	}
-
-	render() {
-		return (
-			this.state.params
-			?
-				<View style={EventPageStyle.container}>
-					<Tile imageSrc={{uri: this.state.params.event.imageSource}}
-						title={this.state.params.event.title}
-						activeOpacity={1}
-						onPress={() => this.setState({posterModalVisible: true})}/>
-					<View style={EventPageStyle.textView}>
-						<Text>{this.state.params.event.description}</Text>
-					</View>
-					<Button title="Sign Up!" onPress={() => this.setState({signUpModalVisible: true})}/>
-					
-					{/* Poster Modal*/}
-					<Modal isVisible={this.state.posterModalVisible}
-						onBackButtonPress={() => this.setState({posterModalVisible: false})}
-						onBackdropPress={() => this.setState({posterModalVisible: false})}
-						onSwipe={() => this.setState({posterModalVisible: false})}
-						swipeDirection="down">
-						<Image source={{uri: this.state.params.event.imageSource}}
-							style={EventPageStyle.image}/>
-					</Modal>
-
-					{/* Sign up Modal*/}
-					<Modal isVisible={this.state.signUpModalVisible}>
-						<View style={{backgroundColor: 'white', padding: 20}}>
-							<Text>This is sign up page</Text>
-							<Button title="Sign Up" onPress={() => alert("Signing Up!")}/>
-							<Button title="Cancel" onPress={() => this.setState({signUpModalVisible: false})}/>
-						</View>
-					</Modal>
-				</View>
-			:
-				<View style={EventPageStyle.textView}>
-					<Text>Please wait while we pull some data...</Text>
-				</View>
-		);
-	}
-}
-
-const EventPageStyle = StyleSheet.create({
-	container: {
-		flex: 1
-	},
-	image: {
-
-		height: 300,
-		resizeMode: 'contain',
-	},
-	textView: {
-		flex: 1,
-		padding: 15,
-	}
-})
 
 const TabBarIcon = (type) => {
 
