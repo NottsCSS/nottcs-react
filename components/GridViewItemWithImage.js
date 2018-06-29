@@ -24,6 +24,7 @@ const GridViewItemWithImageStyle = StyleSheet.create({
     container: {
         margin: 1,
         flex: 1,
+        height: '100%',
     },
     image: {
         height: 90,
