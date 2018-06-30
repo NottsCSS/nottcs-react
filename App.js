@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { StyleSheet, Text, View, Button, Image, TouchableNativeFeedback, TextInput, StatusBar, Dimensions, ScrollView } from 'react-native';
+import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { FontAwesome } from 'react-native-vector-icons';
 
@@ -10,53 +10,15 @@ import ProfilePage from './pages/ProfilePage';
 
 import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
-import {userInterface} from './redux/reducers/userInterface'
+import {userInterface} from './redux/reducers/userInterface';
 import Page from './components/Page';
 import SettingsPage from './pages/SettingsPage';
-import NavigationService from './services/NavigationService'
+import NavigationService from './services/NavigationService';
+import EventPage from './pages/EventPage';
+import EventList from './components/EventList';
+import {EVENT_FEED, EVENT_FEED_ICON, CLUB_LIST_ICON, CLUB_LIST, PROFILE, PROFILE_ICON, APP_NAME, EVENT_FEED_TITLE, EVENT_FEED_ACCENT, CLUB_LIST_TITLE, CLUB_LIST_ACCENT, PROFILE_TITLE, PROFILE_ACCENT, DEFAULT_ACCENT, LOGIN_TITLE, SETTINGS_TITLE} from './assets/AppConstants'
+import ClubPage from './pages/ClubPage'
 
-
-const APP_NAME = 'NottCS';
-
-const EVENT_FEED = 'eventFeed';
-const CLUB_LIST = 'clubList';
-const PROFILE = 'profile';
-
-const EVENT_FEED_TITLE = 'Event Feed';
-const CLUB_LIST_TITLE = 'Club List';
-const PROFILE_TITLE = 'Profile';
-const LOGIN_TITLE = 'Login NottCS';
-const SETTINGS_TITLE = 'App Settings';
-
-const EVENT_FEED_ICON = 'feed';
-const CLUB_LIST_ICON = 'star';
-const PROFILE_ICON = 'user-circle';
-
-const EVENT_FEED_ACCENT = '#4c4cff';
-const CLUB_LIST_ACCENT = '#6666ff';
-const PROFILE_ACCENT = '#7f7fff';
-const DEFAULT_ACCENT = 'purple';
-
-class EventPage extends React.Component {
-
-	state={
-		params: null
-	}
-
-	componentDidMount() {
-		console.log('component mounted');
-		let params = NavigationService.getParams();
-		this.setState(Object.assign({}, this.state, {params: params}));
-	}
-
-	render() {
-		return (
-			<View>
-				<Text>This is event page for: { this.state.params && this.state.params.event.title }</Text>
-			</View>
-		);
-	}
-}
 
 const TabBarIcon = (type) => {
 
@@ -126,7 +88,8 @@ const HomeStack = createMaterialBottomTabNavigator({
 },
 {
 	initialRouteName: 'eventFeed',
-	shifting: true
+	shifting: true,
+	backBehavior: 'none'
 });
 
 const RootStack = createStackNavigator({
@@ -134,13 +97,16 @@ const RootStack = createStackNavigator({
 		screen: ({navigation}) => <Page accentColor={DEFAULT_ACCENT} pageName={LOGIN_TITLE}><LoginPage navigation={navigation}/></Page>,
 	},
 	home: {
-		screen: () => <HomeStack/>
+		screen: ({navigation}) => <HomeStack/>
 	},
 	settings: {
 		screen: ({navigation}) => <Page accentColor={DEFAULT_ACCENT} pageName={SETTINGS_TITLE}><SettingsPage navigation={navigation}/></Page>,
 	},
 	event: {
 		screen: ({navigation}) => <Page accentColor={EVENT_FEED_ACCENT} pageName={NavigationService.getParams().event.title}><EventPage/></Page>
+	},
+	club: {
+		screen: ({navigation}) => <ClubPage accentColor={CLUB_LIST_ACCENT}/>
 	}
 },
 {

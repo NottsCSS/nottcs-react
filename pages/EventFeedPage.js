@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, TouchableHighlight, TouchableNativeFeedback } from 'react-native';
 import ListViewItemWithImage from '../components/ListViewItemWithImage';
 import NavigationService from '../services/NavigationService';
+import EventList from '../components/EventList';
 
 const exampleData = [
     {
@@ -37,22 +38,23 @@ const exampleData = [
 ]
 
 class EventFeedPage extends Component {
+
+    state = {
+        eventList: []
+    }
+
+    componentDidMount() {
+        let newState = Object.assign({}, this.state, {
+            eventList: exampleData,
+        });
+
+        this.setState(newState);
+    }
+
     render() {
         return (
             <View style={EventFeedPageStyle.container}>
-                <ScrollView style={EventFeedPageStyle.container}>
-                    {
-                        exampleData.map(data => (
-                            <TouchableNativeFeedback key={data.id} onPress={() => NavigationService.navigate('event', {event: data})}>
-                                <View>
-                                    <ListViewItemWithImage title={data.title}
-                                        description={data.description}
-                                        imageSource={data.imageSource}/>
-                                </View>
-                            </TouchableNativeFeedback>
-                        ))
-                    }
-                </ScrollView>
+                <EventList eventList={this.state.eventList}/>
             </View>
         )
     }
