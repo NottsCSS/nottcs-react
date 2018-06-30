@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, StyleSheet, TouchableNativeFeedback } from 'react-native';
+import { View, StyleSheet, TouchableNativeFeedback, TouchableOpacity } from 'react-native';
 import { Header } from 'react-native-elements';
 import { FontAwesome } from 'react-native-vector-icons';
 import { createStackNavigator } from 'react-navigation';
@@ -18,21 +18,21 @@ class Page extends Component {
         let Children = () => children;
         const HomeButton = () => {
             return (
-                <TouchableNativeFeedback onPress={() => navigation.navigate('eventFeed')}>
+                <TouchableOpacity onPress={() => navigation.navigate('eventFeed')}>
                     <View>
                         <FontAwesome name="home" color="white" size={20}/>
                     </View>
-                </TouchableNativeFeedback>
+                </TouchableOpacity>
             );
         }
 
         const SettingsButton = () => {
             return (
-                <TouchableNativeFeedback onPress={() => NavigationService.navigate('settings')}>
+                <TouchableOpacity onPress={() => NavigationService.navigate('settings')}>
                     <View>
                         <FontAwesome name="gear" color="white" size={20}/>
                     </View>
-                </TouchableNativeFeedback>
+                </TouchableOpacity>
             );
         }
 

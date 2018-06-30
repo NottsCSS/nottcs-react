@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableNativeFeedback } from 'react-native';
+import { View, StyleSheet, TouchableNativeFeedback, TouchableOpacity } from 'react-native';
 import GridView from 'react-native-super-grid';
 
 import GridViewItemWithImage from '../components/GridViewItemWithImage'
@@ -111,11 +111,11 @@ class ClubListPage extends Component {
                 <GridView itemDimension={120}
                     items={this.state.clubList}
                     renderItem={item => 
-                        <TouchableNativeFeedback onPress={() => NavigationService.navigate('club', {club: item})}>
+                        <TouchableOpacity onPress={() => NavigationService.navigate('club', {club: item})}>
                             <View style={ClubListPageStyle.container}>
                                 <GridViewItemWithImage imageSource={item.imageSource} title={item.title}/>
                             </View>
-                        </TouchableNativeFeedback>
+                        </TouchableOpacity>
                     }/>
             </View>
         );
