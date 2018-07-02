@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, TouchableNativeFeedback, TextInput, StatusBar, Dimensions, ScrollView } from 'react-native';
-import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { StyleSheet, View, AsyncStorage } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { FontAwesome } from 'react-native-vector-icons';
 
@@ -8,16 +8,22 @@ import EventFeedPage from './pages/EventFeedPage';
 import ClubListPage from './pages/ClubListPage';
 import ProfilePage from './pages/ProfilePage';
 
-import { createStore } from 'redux';
+import { createStore , compose} from 'redux';
 import { Provider, connect } from 'react-redux';
-import {userInterface} from './redux/reducers/userInterface';
+import { persistStore, persistReducer } from 'redux-persist';
+
 import Page from './components/Page';
 import SettingsPage from './pages/SettingsPage';
 import NavigationService from './services/NavigationService';
 import EventPage from './pages/EventPage';
-import EventList from './components/EventList';
-import {EVENT_FEED, EVENT_FEED_ICON, CLUB_LIST_ICON, CLUB_LIST, PROFILE, PROFILE_ICON, APP_NAME, EVENT_FEED_TITLE, EVENT_FEED_ACCENT, CLUB_LIST_TITLE, CLUB_LIST_ACCENT, PROFILE_TITLE, PROFILE_ACCENT, DEFAULT_ACCENT, LOGIN_TITLE, SETTINGS_TITLE} from './assets/AppConstants'
+import {EVENT_FEED, EVENT_FEED_ICON, CLUB_LIST_ICON, CLUB_LIST, PROFILE, PROFILE_ICON, EVENT_FEED_TITLE, EVENT_FEED_ACCENT, CLUB_LIST_TITLE, CLUB_LIST_ACCENT, PROFILE_TITLE, PROFILE_ACCENT, DEFAULT_ACCENT, LOGIN_TITLE, SETTINGS_TITLE} from './assets/AppConstants'
 import ClubPage from './pages/ClubPage'
+import LoginPage from './pages/LoginPage';
+import AppStore from './redux/reducers';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Text } from 'react-native-elements';
+import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
+import hardSet from 'redux-persist/es/stateReconciler/hardSet';
 
 
 const TabBarIcon = (type) => {
@@ -34,31 +40,6 @@ const TabBarIcon = (type) => {
 		<FontAwesome name={iconName} color='white' size={20}/>
 	);
 }
-
-class LoginPage extends React.Component {
-	render() {
-		return (
-			<View style={LoginPageStyle.container}>
-				<Text style={LoginPageStyle.appName}>{APP_NAME}</Text>
-				<Button title="Login" onPress={() => this.props.navigation.navigate('home')}/>
-			</View>
-		)
-	}
-}
-
-const LoginPageStyle = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	appName: {
-		fontWeight: 'bold',
-		fontSize: 30,
-		textAlign: 'center',
-		margin: 10
-	}
-})
 
 const HomeStack = createMaterialBottomTabNavigator({
 	eventFeed: {
@@ -118,8 +99,7 @@ class AppFrame extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<RootStack dispatch={this.props.dispatch}
-					ref={navigationRef => {NavigationService.setTopLevelNavigator(navigationRef)}}/>
+				<RootStack ref={navigationRef => {NavigationService.setTopLevelNavigator(navigationRef)}}/>
 			</View>
 		);
 	}
@@ -136,16 +116,26 @@ const styles = StyleSheet.create({
 	}
 });
 
-const AppWithProps = connect(userInterface)(AppFrame);
 
-const UIStore = createStore(userInterface);
+const persistConfig = {
+	key: 'root',
+	storage: AsyncStorage,
+	stateReconciler: hardSet
+}
+
+const persistedStore = persistReducer(persistConfig, AppStore);
+let store = createStore(persistedStore, undefined, compose());
+let persistor = persistStore(store);
 
 export default class App extends React.Component {
 
 	render() {
 		return (
-			<Provider store={UIStore}>
-				<AppWithProps/>
+			<Provider store={store}>
+				<PersistGate loading={<Text>Loading...</Text>}
+					persistor={persistor}>
+					<AppFrame/>
+				</PersistGate>
 			</Provider>
 		);
 	}

@@ -18,3 +18,6 @@ export const EVENT_FEED_ACCENT = '#4c4cff';
 export const CLUB_LIST_ACCENT = '#6666ff';
 export const PROFILE_ACCENT = '#7f7fff';
 export const DEFAULT_ACCENT = 'purple';
+
+export const CLIENT_ID = 'c98546dd-a57c-44bf-bbdb-2734b03f896c';
+export const CLIENT_SECRET = 'hohpGTIQA805]{pocUA68;(';
