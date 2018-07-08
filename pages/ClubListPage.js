@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { View, StyleSheet, TouchableNativeFeedback, TouchableOpacity } from 'react-native';
 import GridView from 'react-native-super-grid';
 
-import GridViewItemWithImage from '../components/GridViewItemWithImage'
-import NavigationService from '../services/NavigationService'
+import GridViewItemWithImage from '../components/GridViewItemWithImage';
+import NavigationService from '../services/NavigationService';
+import LoadingPage from './LoadingPage';
+import {loadClubsFromServer} from '../redux/actions/clubs';
+import {connect} from 'react-redux';
+import AppStore from '../redux/reducers';
 
 const ExampleData = [
     {
@@ -95,29 +99,40 @@ class ClubListPage extends Component {
 
     state = {
         clubList: [],
+        _loaded: false,
     }
 
     componentDidMount() {
-        let newState = Object.assign({}, this.state, {
-            clubList: ExampleData
-        });
+        this.props.dispatch(loadClubsFromServer());
+    }
 
-        this.setState(newState);
+    componentDidUpdate() {
+        if (!this.state._loaded) {
+            let newState = Object.assign({}, this.state, {
+                clubList: this.props.clubs.results,
+                _loaded: true
+            });
+            this.setState(newState);
+        }
     }
 
     render() {
         return (
-            <View style={ClubListPageStyle.container}>
-                <GridView itemDimension={120}
-                    items={this.state.clubList}
-                    renderItem={item => 
-                        <TouchableOpacity onPress={() => NavigationService.navigate('club', {club: item})}>
-                            <View style={ClubListPageStyle.container}>
-                                <GridViewItemWithImage imageSource={item.imageSource} title={item.title}/>
-                            </View>
-                        </TouchableOpacity>
-                    }/>
-            </View>
+            this.state._loaded
+            ?
+                <View style={ClubListPageStyle.container}>
+                    <GridView itemDimension={120}
+                        items={this.state.clubList}
+                        renderItem={item => 
+                            <TouchableOpacity onPress={() => NavigationService.navigate('club', {club: item})}>
+                                <View style={ClubListPageStyle.container}>
+                                    <GridViewItemWithImage imageSource={item.icon} title={item.name}/>
+                                </View>
+                            </TouchableOpacity>
+                        }/>
+                </View>
+            :
+                <LoadingPage/>
         );
     }
 }
@@ -132,4 +147,4 @@ const ClubListPageStyle = StyleSheet.create({
     }
 })
 
-export default ClubListPage;
+export default connect(AppStore => AppStore.clubs)(ClubListPage);

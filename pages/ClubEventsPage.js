@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import EventList from '../components/EventList';
+import AppStore from '../redux/reducers';
+import {connect} from 'react-redux';
+import {loadClubEventsFromServer} from '../redux/actions/clubs';
+import LoadingPage from './LoadingPage';
 
 const ExampleEvents = [
 	{
@@ -22,25 +26,34 @@ class ClubEventsPage extends React.Component {
 
 	state = {
 		eventList: null,
+		_loaded: false,
 	}
 
 	componentDidMount() {
-		this.setState({eventList: ExampleEvents});
+		this.props.dispatch(loadClubEventsFromServer(`Nott's Makers Club`));
+	}
+
+	componentDidUpdate() {
+		if (!this.state._loaded) {
+			let newState = Object.assign({}, this.state, {
+				eventList: this.props.clubEvents.results,
+				_loaded: true
+			});
+			this.setState(newState);
+		}
 	}
 
 	render() {
 		return (
-			this.state.eventList
+			this.state._loaded
 			?
 				<View style={{flex: 1}}>
 					<EventList eventList={this.state.eventList}/>
 				</View>
 			:
-				<View>
-					<Text>Please wait while we pull some data...</Text>
-				</View>
+				<LoadingPage/>
 		)
 	}
 }
 
-export default ClubEventsPage;
+export default connect(AppStore => AppStore.clubs)(ClubEventsPage);

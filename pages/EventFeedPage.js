@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import { View, StyleSheet } from 'react-native';
 import EventList from '../components/EventList';
 import {connect} from 'react-redux';
+import AppStore from '../redux/reducers';
+import { loadEventsFromServer } from '../redux/actions/events';
+import LoadingPage from './LoadingPage';
 
 const exampleData = [
     {
@@ -39,22 +42,33 @@ const exampleData = [
 class EventFeedPage extends Component {
 
     state = {
-        eventList: []
+        eventList: [],
+        _loaded: false
     }
 
     componentDidMount() {
-        let newState = Object.assign({}, this.state, {
-            eventList: exampleData,
-        });
+        this.props.dispatch(loadEventsFromServer());
+    }
 
-        this.setState(newState);
+    componentDidUpdate() {
+        if (this.state._loaded === false) {
+            let newState = Object.assign({}, this.state, {
+                eventList: this.props.events.results,
+                _loaded: true,
+            });
+            this.setState(newState);
+        }
     }
 
     render() {
         return (
-            <View style={EventFeedPageStyle.container}>
-                <EventList eventList={this.state.eventList}/>
-            </View>
+            this.state._loaded
+            ?
+                <View style={EventFeedPageStyle.container}>
+                    <EventList eventList={this.state.eventList}/>
+                </View>
+            :
+                <LoadingPage/>
         )
     }
 }
@@ -69,4 +83,4 @@ const EventFeedPageStyle = StyleSheet.create({
     }
 })
 
-export default EventFeedPage;
+export default connect(AppStore => AppStore.events)(EventFeedPage);

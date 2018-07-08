@@ -25,6 +25,7 @@ import { Text } from 'react-native-elements';
 import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
 import thunk from 'redux-thunk';
 import hardSet from 'redux-persist/es/stateReconciler/hardSet';
+import LoadingPage from './pages/LoadingPage';
 
 
 const TabBarIcon = (type) => {
@@ -133,7 +134,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<PersistGate loading={<Text>Loading...</Text>}
+				<PersistGate loading={<LoadingPage/>}
 					persistor={persistor}>
 					<AppFrame/>
 				</PersistGate>

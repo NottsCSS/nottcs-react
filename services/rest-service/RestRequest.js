@@ -27,6 +27,7 @@ const setupClient = (method, requestBody) => {
  */
 export const RequestDataFromServer = (resource, params = null) => {
     let address = API_BASE_ADDRESS + resource + (params ? '?' + stringify(params) : '');
+    console.log('address :', address);
     
     return fetch(address, setupClient('GET'));
 }

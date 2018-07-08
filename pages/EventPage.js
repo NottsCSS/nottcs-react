@@ -34,7 +34,7 @@ class EventPage extends React.Component {
 			this.state.params
 			?
 				<View style={EventPageStyle.container}>
-					<Tile imageSrc={{uri: this.state.params.event.imageSource}}
+					<Tile imageSrc={{uri: this.state.params.event.image}}
 						title={this.state.params.event.title}
 						activeOpacity={1}
 						onPress={() => this.setState({posterModalVisible: true})}/>
@@ -49,7 +49,7 @@ class EventPage extends React.Component {
 						onBackdropPress={() => this.setState({posterModalVisible: false})}
 						onSwipe={() => this.setState({posterModalVisible: false})}
 						swipeDirection="down">
-						<Image source={{uri: this.state.params.event.imageSource}}
+						<Image source={{uri: this.state.params.event.image}}
 							style={EventPageStyle.image}/>
 					</Modal>
 

@@ -5,15 +5,16 @@ import NavigationService from '../services/NavigationService';
 import ListViewItemWithImage from './ListViewItemWithImage';
 
 const EventList = ({eventList}) => {
+    console.log('eventList :', eventList);
     return (
         <ScrollView style={{flex: 1}}>
             {
                 eventList.map(data => (
-                    <TouchableOpacity key={data.id} onPress={() => NavigationService.navigate('event', {event: data})}>
+                    <TouchableOpacity key={data.created_timestamp} onPress={() => NavigationService.navigate('event', {event: data})}>
                         <View>
                             <ListViewItemWithImage title={data.title}
                                 description={data.description}
-                                imageSource={data.imageSource}/>
+                                imageSource={data.image}/>
                         </View>
                     </TouchableOpacity>
                 ))

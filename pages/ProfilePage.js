@@ -5,6 +5,7 @@ import DetailList from '../components/DetailList';
 import {getAndSaveUserData} from '../redux/actions/user';
 import {connect} from 'react-redux';
 import AppStore from '../redux/reducers'
+import LoadingPage from './LoadingPage';
 
 const ExampleData = {
     name: 'Eagle',
@@ -27,10 +28,14 @@ class ProfilePage extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
-                <ProfileCard title={this.props.user.name} imageSource={'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'}/>
-                <DetailList details={this.props.user}/>
-            </View>
+            this.props.user
+            ?
+                <View style={{flex: 1}}>
+                    <ProfileCard title={this.props.user.name} imageSource={'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'}/>
+                    <DetailList details={this.props.user}/>
+                </View>
+            :
+                <LoadingPage/>
         );
     }
 }

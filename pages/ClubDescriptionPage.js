@@ -5,6 +5,7 @@ import NavigationService from '../services/NavigationService';
 import ClubSignUpConfirmationPage from './ClubSignUpConfirmationPage'
 import ClubSignUpPage from './ClubSignUpPage';
 import Modal from 'react-native-modal';
+import LoadingPage from './LoadingPage';
 
 class ClubDescriptionPage extends React.Component {
 
@@ -37,19 +38,17 @@ class ClubDescriptionPage extends React.Component {
                     this.state.club
                     ?
                         <View style={ClubDescriptionPageStyle.container}>
-                            <Image source={{uri: this.state.club.imageSource}}
+                            <Image source={{uri: this.state.club.icon}}
                                 style={ClubDescriptionPageStyle.image}/>
                             <ScrollView style={ClubDescriptionPageStyle.container} 
                                 contentContainerStyle={ClubDescriptionPageStyle.textView}>
-                                <Text style={ClubDescriptionPageStyle.title}>{this.state.club.title}</Text>
+                                <Text style={ClubDescriptionPageStyle.title}>{this.state.club.name}</Text>
                                 <Text style={ClubDescriptionPageStyle.description}>{this.state.club.description}</Text>
                             </ScrollView>
                             <Button title="Register" onPress={() => this.setState({signUpModalVisible: true})}/>
                         </View>
-                    :
-                        <View style={ClubDescriptionPageStyle.textView}>
-                            <Text>Please wait while we pull some data...</Text>
-                        </View>
+					:
+						<LoadingPage/>
                 }
                 {/* Sign up Modal*/}
 					<Modal isVisible={this.state.signUpModalVisible}>

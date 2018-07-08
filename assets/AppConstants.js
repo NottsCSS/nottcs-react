@@ -25,3 +25,5 @@ export const CLIENT_SECRET = 'hohpGTIQA805]{pocUA68;(';
 export const API_BASE_ADDRESS = 'https://testing-endpoints.herokuapp.com/';
 
 export const USER = 'azuread-user/me/';
+export const EVENTS = 'event';
+export const CLUBS = 'club';
