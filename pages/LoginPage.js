@@ -52,6 +52,7 @@ class LoginPage extends Component {
                 <View style={LoginPageStyle.container}>
                     <Text style={LoginPageStyle.appName}>{APP_NAME}</Text>
                     <Button title="Login" onPress={() => this.setState({isLoggingIn: true})}/>
+                    {/*<Text>{JSON.stringify(this.props)}</Text>*/}
                 </View>
 		)
 	}

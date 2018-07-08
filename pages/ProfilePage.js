@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import { View } from 'react-native';
 import ProfileCard from '../components/ProfileCard';
 import DetailList from '../components/DetailList';
+import {getAndSaveUserData} from '../redux/actions/user';
+import {connect} from 'react-redux';
+import AppStore from '../redux/reducers'
 
 const ExampleData = {
     name: 'Eagle',
@@ -13,14 +16,23 @@ const ExampleData = {
 }
 
 class ProfilePage extends Component {
+
+    componentDidMount() {
+        this.props.dispatch(getAndSaveUserData());
+    }
+
+    componentDidUpdate() {
+        console.log('this.props :', this.props);
+    }
+
     render() {
         return (
             <View style={{flex: 1}}>
-                <ProfileCard title={ExampleData.name} imageSource={'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'}/>
-                <DetailList details={ExampleData}/>
+                <ProfileCard title={this.props.user.name} imageSource={'http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png'}/>
+                <DetailList details={this.props.user}/>
             </View>
         );
     }
 }
 
-export default ProfilePage;
+export default connect(AppStore => AppStore.user)(ProfilePage);

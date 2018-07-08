@@ -1,3 +1,0 @@
-export const SET_ACCENT_COLOR = 'SET_ACCENT_COLOR';
-export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
-export const SET_ROOT_STACK = 'SET_ROOT_STACK';

@@ -8,7 +8,7 @@ import EventFeedPage from './pages/EventFeedPage';
 import ClubListPage from './pages/ClubListPage';
 import ProfilePage from './pages/ProfilePage';
 
-import { createStore , compose} from 'redux';
+import { createStore , compose, applyMiddleware} from 'redux';
 import { Provider, connect } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 
@@ -23,6 +23,7 @@ import AppStore from './redux/reducers';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Text } from 'react-native-elements';
 import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
+import thunk from 'redux-thunk';
 import hardSet from 'redux-persist/es/stateReconciler/hardSet';
 
 
@@ -124,7 +125,7 @@ const persistConfig = {
 }
 
 const persistedStore = persistReducer(persistConfig, AppStore);
-let store = createStore(persistedStore, undefined, compose());
+export let store = createStore(persistedStore, applyMiddleware(thunk));
 let persistor = persistStore(store);
 
 export default class App extends React.Component {

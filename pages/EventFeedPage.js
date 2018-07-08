@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, TouchableHighlight, TouchableNativeFeedback } from 'react-native';
-import ListViewItemWithImage from '../components/ListViewItemWithImage';
-import NavigationService from '../services/NavigationService';
+import { View, StyleSheet } from 'react-native';
 import EventList from '../components/EventList';
+import {connect} from 'react-redux';
 
 const exampleData = [
     {

@@ -6,25 +6,14 @@ import ChangeCase from 'change-case';
 
 const DetailList = ({details}) => {
 
-    let detailList = Object.keys(details).map(key => {
-        let newObject = {};
-        newObject[key] = details[key];
-
-        return newObject;
-    });
-
     return (
         <ScrollView style={DetailListStyle.scroll}>
-            {
-                detailList.map((detail, index) => {
-                    let key = Object.keys(detail)[0];
-                    let title = ChangeCase.titleCase(key);
-                    let subtitle = detail[key];
-                    return (
-                        <ListItem key={index} title={title} subtitle={subtitle} hideChevron/>
-                    );
-                })
-            }
+            <ListItem title="Name" subtitle={details.name} hideChevron/>
+            <ListItem title="Email" subtitle={details.email} hideChevron/>
+            <ListItem title="Student ID" subtitle={details.student_id} hideChevron/>
+            <ListItem title="Library Number" subtitle={details.library_no} hideChevron/>
+            <ListItem title="Studying Course" subtitle={details.course} hideChevron/>
+            <ListItem title="Year of Study" subtitle={details.year_of_study} hideChevron/>
         </ScrollView>
     );
 }
