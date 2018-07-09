@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {credentials} from '../redux/reducers/credentials';
 import {saveCredentials} from '../redux/actions/credentials';
 import AppStore from '../redux/reducers';
+import NavigationService from '../services/NavigationService';
 
 class LoginPage extends Component {
 
@@ -23,15 +24,16 @@ class LoginPage extends Component {
 
     loginSuccess = (credentials) => {
         let accessTokenDetails = credentials[`https://graph.microsoft.com`];
-        console.log('accessTokenDetails.access_token :', accessTokenDetails.access_token);
-        console.log('accessTokenDetails :', accessTokenDetails);
         this.props.dispatch(saveCredentials(accessTokenDetails));
         this.props.navigation.navigate('home');
     }
 
+    componentDidMount() {
+        this.setState({isLoggingIn: true});
+    }
+
 
 	render() {
-
         new ReactNativeAD({
             client_id: CLIENT_ID,
             client_secret: CLIENT_SECRET,
@@ -46,7 +48,8 @@ class LoginPage extends Component {
                 <View style={LoginPageStyle.container}>
                     <ADLoginView context={ReactNativeAD.getContext(CLIENT_ID)}
                         onSuccess={this.loginSuccess}
-                        hideAfterLogin/>
+                        hideAfterLogin
+                        needLogout={NavigationService.getParams()&&NavigationService.getParams().logout}/>
                 </View>
             :
                 <View style={LoginPageStyle.container}>

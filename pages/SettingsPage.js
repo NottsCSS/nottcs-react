@@ -3,7 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { ListItem } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation';
-
+import LogoutPage from './LogoutPage';
+import NavigationService from '../services/NavigationService';
 const AboutPage = () => {
     return (
         <View>
@@ -43,7 +44,7 @@ const Settings = ({navigation}) => {
             <ListItem title="About" onPress={() => navigation.navigate('about')}/>
             <ListItem title="Rate Us" onPress={() => navigation.navigate('rate')}/>
             <ListItem title="Feedback" onPress={() => navigation.navigate('feedback')}/>
-            <ListItem title="Sign Out" onPress={() => alert('Signing Out!')}/>
+            <ListItem title="Sign Out" onPress={() => NavigationService.navigate('login', {logout: true})}/>
         </View>
     )
 }
@@ -64,6 +65,9 @@ const SettingsStack = createStackNavigator({
     feedback: {
         screen: FeedbackPage
     },
+    logout: {
+        screen: LogoutPage
+    }
 },
 {
     initialRouteName: 'settings',
