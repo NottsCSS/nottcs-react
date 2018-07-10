@@ -8,6 +8,7 @@ import {credentials} from '../redux/reducers/credentials';
 import {saveCredentials} from '../redux/actions/credentials';
 import AppStore from '../redux/reducers';
 import NavigationService from '../services/NavigationService';
+import {getAndSaveUserData} from '../redux/actions/user';
 
 class LoginPage extends Component {
 
@@ -23,8 +24,7 @@ class LoginPage extends Component {
     }
 
     loginSuccess = (credentials) => {
-        let accessTokenDetails = credentials[RESOURCE_ID];
-        this.props.dispatch(saveCredentials(accessTokenDetails));
+        this.props.dispatch(getAndSaveUserData());
         this.props.navigation.navigate('home');
     }
 
