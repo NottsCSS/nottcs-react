@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import PropTypes from 'prop-types';
-import { APP_NAME , CLIENT_ID, CLIENT_SECRET} from '../assets/AppConstants';
+import { APP_NAME , CLIENT_ID, CLIENT_SECRET, RESOURCE_ID} from '../assets/AppConstants';
 import { ReactNativeAD, ADLoginView } from 'react-native-azure-ad';
 import {connect} from 'react-redux';
 import {credentials} from '../redux/reducers/credentials';
@@ -18,12 +18,12 @@ class LoginPage extends Component {
     AzureADContext = {
         client_id: CLIENT_ID,
         resources: [
-            'https://graph.microsoft.com'
+            RESOURCE_ID
         ]
     }
 
     loginSuccess = (credentials) => {
-        let accessTokenDetails = credentials[`https://graph.microsoft.com`];
+        let accessTokenDetails = credentials[RESOURCE_ID];
         this.props.dispatch(saveCredentials(accessTokenDetails));
         this.props.navigation.navigate('home');
     }
@@ -38,7 +38,7 @@ class LoginPage extends Component {
             client_id: CLIENT_ID,
             client_secret: CLIENT_SECRET,
             resources: [
-                'https://graph.microsoft.com'
+                RESOURCE_ID
             ]
         });
 

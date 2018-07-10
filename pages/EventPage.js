@@ -6,6 +6,7 @@ import { Tile } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import EventSignUpConfirmationPage from './EventSignUpConfirmationPage'
 import EventSignUpPage from './EventSignUpPage'
+import LoadingPage from './LoadingPage';
 
 class EventPage extends React.Component {
 
@@ -58,17 +59,17 @@ class EventPage extends React.Component {
 						{
 							this.state.formSubmitted
 							?
-								<EventSignUpConfirmationPage onClose={this.closeSignUpModal}/>
+								<EventSignUpConfirmationPage onClose={this.closeSignUpModal}
+									event={this.state.params.event}/>
 							:
 								<EventSignUpPage onCancel={this.closeSignUpModal}
-									onSubmit={this.submitForm}/>
+									onSubmit={this.submitForm}
+									event={this.state.params.event}/>
 						}
 					</Modal>
 				</View>
 			:
-				<View style={EventPageStyle.textView}>
-					<Text>Please wait while we pull some data...</Text>
-				</View>
+				<LoadingPage/>
 		);
 	}
 }

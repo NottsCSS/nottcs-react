@@ -6,7 +6,7 @@
     "privacy": "public",
     "sdkVersion": "28.0.0",
     "platforms": ["ios", "android"],
-    "version": "0.0.1 b0008",
+    "version": "0.0.1 b0009",
     "orientation": "portrait",
     "icon": "./assets/icon2.png",
     "splash": {
@@ -21,7 +21,7 @@
       "**/*"
     ],
     "android": {
-      "versionCode": 8,
+      "versionCode": 9,
       "package": "com.nottcss.nottcs",
       "permissions": []
     },

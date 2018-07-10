@@ -2,23 +2,31 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import QRCode from 'react-native-qrcode-svg';
+import QRStringGenerator from '../components/scripts/QRStringGenerator';
+import {connect} from 'react-redux';
+import AppStore from '../redux/reducers'
 
-const EventSignUpConfirmationPage = ({onClose}) => {
-	return (
-		<View style={EventSignUpConfirmationPageStyle.container}>
-			<Text style={EventSignUpConfirmationPageStyle.text}>Get your QR Code scanned by the club admin to confirm the sign up!</Text>
-			<View style={EventSignUpConfirmationPageStyle.qrCode}>
-				<QRCode value="Special sauce for confirmation to work!"
-					size={200}/>
-			</View>
-			<View style={EventSignUpConfirmationPageStyle.button}>
-				<Button title="Save QR Code" onPress={() => alert('Saving QR Code!')}/>
-			</View>
-			<View style={EventSignUpConfirmationPageStyle.button}>
-				<Button title="Close" onPress={onClose}/>
-			</View>
-		</View>
-	)
+class EventSignUpConfirmationPage extends React.Component {
+
+    render() {
+        const {onClose, event, user} = this.props;
+        let qrCode = QRStringGenerator('event', event.title, user.id);
+        return (
+            <View style={EventSignUpConfirmationPageStyle.container}>
+                <Text style={EventSignUpConfirmationPageStyle.text}>Get your QR Code scanned by the club admin to confirm the sign up!</Text>
+                <View style={EventSignUpConfirmationPageStyle.qrCode}>
+                    <QRCode value={qrCode}
+                        size={200}/>
+                </View>
+                <View style={EventSignUpConfirmationPageStyle.button}>
+                    <Button title="Save QR Code" onPress={() => alert('Saving QR Code!')}/>
+                </View>
+                <View style={EventSignUpConfirmationPageStyle.button}>
+                    <Button title="Close" onPress={onClose}/>
+                </View>
+            </View>
+        )
+    }
 }
 
 EventSignUpConfirmationPage.propTypes = {
@@ -43,4 +51,4 @@ const EventSignUpConfirmationPageStyle = StyleSheet.create({
     }
 })
 
-export default EventSignUpConfirmationPage;
+export default connect(AppStore => AppStore.user)(EventSignUpConfirmationPage);

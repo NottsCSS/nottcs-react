@@ -23,6 +23,7 @@ export const CLIENT_ID = 'c98546dd-a57c-44bf-bbdb-2734b03f896c';
 export const CLIENT_SECRET = 'hohpGTIQA805]{pocUA68;(';
 
 export const API_BASE_ADDRESS = 'https://testing-endpoints.herokuapp.com/';
+export const RESOURCE_ID = 'https://graph.microsoft.com';
 
 export const USER = 'azuread-user/me/';
 export const EVENTS = 'event';

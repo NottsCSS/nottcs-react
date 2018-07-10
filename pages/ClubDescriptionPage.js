@@ -55,10 +55,12 @@ class ClubDescriptionPage extends React.Component {
 						{
 							this.state.formSubmitted
 							?
-								<ClubSignUpConfirmationPage onClose={this.closeSignUpModal}/>
+								<ClubSignUpConfirmationPage onClose={this.closeSignUpModal}
+									club={this.state.club}/>
 							:
 								<ClubSignUpPage onCancel={this.closeSignUpModal}
-									onSubmit={this.submitForm}/>
+									onSubmit={this.submitForm}
+									club={this.state.club}/>
 						}
 					</Modal>
             </View>

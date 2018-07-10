@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { ListItem } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation';
-import LogoutPage from './LogoutPage';
 import NavigationService from '../services/NavigationService';
 const AboutPage = () => {
     return (
@@ -64,9 +63,6 @@ const SettingsStack = createStackNavigator({
     },
     feedback: {
         screen: FeedbackPage
-    },
-    logout: {
-        screen: LogoutPage
     }
 },
 {
