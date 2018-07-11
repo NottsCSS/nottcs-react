@@ -1,44 +1,38 @@
 import { stringify } from 'querystring';
 import { API_BASE_ADDRESS , CLIENT_ID, RESOURCE_ID} from '../../assets/AppConstants';
-import { ReactNativeAD } from 'react-native-azure-ad';
-import NavigationService from '../NavigationService';
+import { setupClient, GET, POST, PUT, DELETE } from './RestConfig';
 
 /**
- * Attaches Credentials and required fields for fetch client
- * @param {string} method Request Method
- * @param {object} requestBody Request body for http request
- */
-const setupClient = async(method, requestBody) => {
-
-    const accessToken = await ReactNativeAD.getContext(CLIENT_ID)
-        .assureToken(RESOURCE_ID);
-
-    console.log('accessToken :', accessToken);
-
-    //TODO: Desompose this into states instead of navigating inside RestService.js
-    if (!accessToken) {
-        NavigationService.navigate('login');
-    }
-
-    return {
-        method: method,
-        headers: {
-            'Authorization': 'Bearer ' + accessToken
-        },
-        body: requestBody,
-    }
-}
-
-/**
- * Requests a GET from server
+ * Requests a GET from server to obtain data list
  * @param {string} resource Target resource to fetch data
  * @param {object} params Additional parameters for GET request
  */
 export const RequestDataFromServer = async(resource, params = null) => {
     let address = API_BASE_ADDRESS + resource + (params ? '?' + stringify(params) : '');
-    console.log('address :', address);
     
-    return fetch(address, await setupClient('GET'));
+    return fetch(address, await setupClient(GET));
+}
+
+/**
+ * Requests a GET from server to obtain data list
+ * @param {string} resource Target resource to fetch data
+ * @param {object} params Additional parameters for GET request
+ */
+export const RequestDataListFromServer = async(resource, params = null) => {
+    let address = API_BASE_ADDRESS + resource + (params ? '?' + stringify(params) : '');
+    
+    return fetch(address, await setupClient(GET));
+}
+
+/**
+ * Request a GET from server to obtain single data object
+ * @param {string} resource Target resource to fetch data
+ * @param {string} identifier Id of the object
+ */
+export const RequestDataItemFromServer = async(resource, identifier) => {
+    let address = `${API_BASE_ADDRESS}${resource}/${identifier}`;
+
+    return fetch(address, await setupClient(GET));
 }
 
 //TODO: Verify if it works
@@ -48,10 +42,9 @@ export const RequestDataFromServer = async(resource, params = null) => {
  * @param {object} requestBody Object data to be created
  */
 export const CreateDataInServer = async(resource, requestBody = null) => {
-    if (!requestBody) console.log('WARNING: Empty Request Body');
     let address = API_BASE_ADDRESS + resource;
 
-    return fetch(address, await setupClient('POST', requestBody));
+    return fetch(address, await setupClient(POST, requestBody));
 }
 
 //TODO: Verify if it works
@@ -62,12 +55,10 @@ export const CreateDataInServer = async(resource, requestBody = null) => {
  * @param {object} requestBody Object data to be updated
  */
 export const UpdateDataInServer = async(resource, params = null, requestBody = null) => {
-    if (!params) console.log('WARNING: Empty params');
-    if (!requestBody) console.log('WARNING: Empty Request Body');
 
     let address = API_BASE_ADDRESS + resource + (params ? '?' + stringify(params) : '');
 
-    return fetch(address, await setupClient('PUT', requestBody));
+    return fetch(address, await setupClient(PUT, requestBody));
 }
 
 //TODO: Verify if it works
@@ -79,5 +70,5 @@ export const UpdateDataInServer = async(resource, params = null, requestBody = n
 export const DeleteDataInServer = async(resource, params = null) => {
     let address = API_BASE_ADDRESS + resource + (params ? '?' + stringify(params) : '');
 
-    return fetch(address, await setupClient('DELETE'));
+    return fetch(address, await setupClient(DELETE));
 }
