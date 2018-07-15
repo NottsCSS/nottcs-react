@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { CLUBS } from "../assets/AppConstants";
 import { requestData } from "../services/redux/actions/request";
 import { APP_STORE } from "../services/redux/reducers";
+import ErrorPage from "./ErrorPage";
 
 class ClubListPage extends Component {
     componentDidMount() {
@@ -25,7 +26,9 @@ class ClubListPage extends Component {
         return this.props.request.data[CLUBS] &&
             this.props.request.data[CLUBS]._loaded ? (
             this.props.request.data[CLUBS]._error ? (
-                <Text>{this.props.request.data[CLUBS]._errorMessage}</Text>
+                <ErrorPage
+                    errorMessage={this.props.request.data[CLUBS]._errorMessage}
+                />
             ) : (
                 <View style={ClubListPageStyle.container}>
                     <GridView

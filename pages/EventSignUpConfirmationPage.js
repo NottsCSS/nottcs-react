@@ -5,7 +5,7 @@ import QRCode from "react-native-qrcode-svg";
 import QRStringGenerator from "../components/scripts/QRStringGenerator";
 import { connect } from "react-redux";
 import { APP_STORE } from "../services/redux/reducers";
-import { USER } from "../assets/AppConstants";
+import { USER, EVENT_FEED_SECONDARY_ACCENT } from "../assets/AppConstants";
 
 class EventSignUpConfirmationPage extends React.Component {
     render() {
@@ -25,10 +25,15 @@ class EventSignUpConfirmationPage extends React.Component {
                     <Button
                         title="Save QR Code"
                         onPress={() => alert("Saving QR Code!")}
+                        color={EVENT_FEED_SECONDARY_ACCENT}
                     />
                 </View>
                 <View style={EventSignUpConfirmationPageStyle.button}>
-                    <Button title="Close" onPress={onClose} />
+                    <Button
+                        title="Close"
+                        onPress={onClose}
+                        color={EVENT_FEED_SECONDARY_ACCENT}
+                    />
                 </View>
             </View>
         );

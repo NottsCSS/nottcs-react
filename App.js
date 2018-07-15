@@ -43,6 +43,7 @@ import thunk from "redux-thunk";
 import hardSet from "redux-persist/es/stateReconciler/hardSet";
 import LoadingPage from "./pages/LoadingPage";
 import { APP_STORE } from "./services/redux/reducers";
+import QRPage from "./pages/QRPage";
 
 const TabBarIcon = type => {
     let iconName;
@@ -56,6 +57,9 @@ const TabBarIcon = type => {
             break;
         case PROFILE:
             iconName = PROFILE_ICON;
+            break;
+        case "qrcode":
+            iconName = "qrcode";
             break;
     }
 
@@ -96,6 +100,23 @@ const HomeStack = createMaterialBottomTabNavigator(
                 title: CLUB_LIST_TITLE,
                 tabBarIcon: TabBarIcon(CLUB_LIST),
                 tabBarColor: CLUB_LIST_ACCENT
+            }
+        },
+        qr: {
+            screen: ({ navigation }) => (
+                <Page
+                    showActionButtons
+                    accentColor={DEFAULT_ACCENT}
+                    pageName="QR Page"
+                    navigation={navigation}
+                >
+                    <QRPage />
+                </Page>
+            ),
+            navigationOptions: {
+                title: "QR Code",
+                tabBarIcon: TabBarIcon("qrcode"),
+                tabBarColor: DEFAULT_ACCENT
             }
         },
         profile: {

@@ -7,6 +7,7 @@ import LoadingPage from "./LoadingPage";
 import { APP_STORE } from "../services/redux/reducers";
 import { requestData } from "../services/redux/actions/request";
 import { USER } from "../assets/AppConstants";
+import ErrorPage from "./ErrorPage";
 const ExampleData = {
     name: "Eagle",
     email: "kecy6cyt@nottingham.edu.my",
@@ -29,7 +30,9 @@ class ProfilePage extends Component {
         return this.props.request.data[USER] &&
             this.props.request.data[USER]._loaded ? (
             this.props.request.data[USER]._error ? (
-                <Text>{this.props.request.data[USER]._errorMessage}</Text>
+                <ErrorPage
+                    errorMessage={this.props.request.data[USER]._errorMessage}
+                />
             ) : (
                 <View style={{ flex: 1 }}>
                     <ProfileCard

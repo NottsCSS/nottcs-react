@@ -48,11 +48,12 @@ export const request = (state = INITIAL_STATE, action) => {
         case ActionTypes.CREATE_DATA_FAIL:
         case ActionTypes.UPDATE_DATA_FAIL:
         case ActionTypes.REMOVE_DATA_FAIL: {
-
             let resultState = {
                 _loaded: true,
                 _error: true,
-                _errorMessage: action.errorMessage.stack,
+                _errorMessage: `${action.errorMessage.name}\n${
+                    action.errorMessage.message
+                }\n${action.errorMessage.stack}`,
                 result: null
             };
 

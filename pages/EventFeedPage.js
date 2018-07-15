@@ -6,6 +6,7 @@ import LoadingPage from "./LoadingPage";
 import { APP_STORE } from "../services/redux/reducers";
 import { requestData } from "../services/redux/actions/request";
 import { EVENTS } from "../assets/AppConstants";
+import ErrorPage from "./ErrorPage";
 
 class EventFeedPage extends Component {
     componentDidMount() {
@@ -22,7 +23,9 @@ class EventFeedPage extends Component {
         return this.props.request.data[EVENTS] &&
             this.props.request.data[EVENTS]._loaded ? (
             this.props.request.data[EVENTS]._error ? (
-                <Text>{this.props.request.data[EVENTS]._errorMessage}</Text>
+                <ErrorPage
+                    errorMessage={this.props.request.data[EVENTS]._errorMessage}
+                />
             ) : (
                 <View style={EventFeedPageStyle.container}>
                     <EventList
