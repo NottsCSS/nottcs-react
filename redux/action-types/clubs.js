@@ -1,2 +1,0 @@
-export const SAVE_CLUBS = 'SAVE_CLUBS';
-export const SAVE_CLUB_EVENTS = 'SAVE_CLUB_EVENTS';

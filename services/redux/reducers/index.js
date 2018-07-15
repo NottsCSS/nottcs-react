@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux';
-import {clubs} from './clubs';
+import { combineReducers } from "redux";
+import { request } from "./request";
 
 export const APP_STORE = combineReducers({
-    clubs,
-})
+    request
+});
