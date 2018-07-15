@@ -26,7 +26,7 @@ class LoginPage extends Component {
 
     loginSuccess = credentials => {
         this.props.dispatch(requestData(USER, null, USER));
-        this.props.navigation.navigate("home");
+        NavigationService.navigateAndClearStack("home");
     };
 
     componentDidMount() {
