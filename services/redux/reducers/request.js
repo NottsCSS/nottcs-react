@@ -6,10 +6,10 @@ const INITIAL_STATE = {
 
 export const request = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case ActionTypes.REQUEST_DATA:
-        case ActionTypes.CREATE_DATA:
-        case ActionTypes.UPDATE_DATA:
-        case ActionTypes.REMOVE_DATA: {
+        case ActionTypes.REQUEST_DATA_START:
+        case ActionTypes.CREATE_DATA_START:
+        case ActionTypes.UPDATE_DATA_START:
+        case ActionTypes.REMOVE_DATA_START: {
             let resultState = {
                 _loaded: false,
                 _error: false,

@@ -6,12 +6,23 @@ import QRStringGenerator from "../components/scripts/QRStringGenerator";
 import { connect } from "react-redux";
 import { APP_STORE } from "../services/redux/reducers";
 import { USER, EVENT_FEED_SECONDARY_ACCENT } from "../assets/AppConstants";
+import { saveQrCode } from "../services/redux/actions/qrCode";
 
 class EventSignUpConfirmationPage extends React.Component {
+
+    state = {
+        qrCode: "Sample Text"
+    }
+
+    componentDidMount() {
+        console.log("Ping");
+        const { event } = this.props;
+        const user = this.props.request.data[USER].result;
+        this.setState({qrCode: QRStringGenerator("event", event.title, user.id)});
+    }
+
     render() {
         const { onClose, event } = this.props;
-        const user = this.props.request.data[USER].result;
-        let qrCode = QRStringGenerator("event", event.title, user.id);
         return (
             <View style={EventSignUpConfirmationPageStyle.container}>
                 <Text style={EventSignUpConfirmationPageStyle.text}>
@@ -19,12 +30,17 @@ class EventSignUpConfirmationPage extends React.Component {
                     sign up!
                 </Text>
                 <View style={EventSignUpConfirmationPageStyle.qrCode}>
-                    <QRCode value={qrCode} size={200} />
+                    <QRCode value={this.state.qrCode} size={200} />
                 </View>
                 <View style={EventSignUpConfirmationPageStyle.button}>
                     <Button
                         title="Save QR Code"
-                        onPress={() => alert("Saving QR Code!")}
+                        onPress={() => {
+                            this.props.dispatch(
+                                saveQrCode(event.title, Date.now(), this.state.qrCode)
+                            );
+                            alert("QR Code saved!");
+                        }}
                         color={EVENT_FEED_SECONDARY_ACCENT}
                     />
                 </View>

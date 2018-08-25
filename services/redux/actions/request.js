@@ -8,10 +8,20 @@ import { getData, postData, putData, deleteData } from "../../rest/RestRequest";
  * @param {string} target Allocated name for the request result in "data" state
  */
 export const requestData = (resource, params, target) => dispatch => {
-    dispatch(startRequestData(resource, params, target));
+    dispatch(requestDataStart(target));
 
+    getData(resource, params)
+        .then(response => {
+            if (response.status === 200) return response.json();
+            else throw new Error(`${response.status} ${response.statusText}`);
+        })
+        .then(result => dispatch(requestDataSuccess(result, target)))
+        .catch(errorMessage => dispatch(requestDataFail(errorMessage, target)));
+};
+
+const requestDataStart = target => {
     return {
-        type: ActionTypes.REQUEST_DATA,
+        type: ActionTypes.REQUEST_DATA_START,
         target
     };
 };
@@ -32,16 +42,6 @@ const requestDataFail = (errorMessage, target) => {
     };
 };
 
-const startRequestData = (resource, params, target) => dispatch => {
-    getData(resource, params)
-        .then(response => {
-            if (response.status === 200) return response.json();
-            else throw new Error(`${response.status} ${response.statusText}`);
-        })
-        .then(result => dispatch(requestDataSuccess(result, target)))
-        .catch(errorMessage => dispatch(requestDataFail(errorMessage, target)));
-};
-
 /**
  * Performs a POST request to server and create data in server
  * @param {string} resource API resource to request
@@ -49,10 +49,21 @@ const startRequestData = (resource, params, target) => dispatch => {
  * @param {string} target Allocated name for the request result in "data" state
  */
 export const createData = (resource, requestBody, target) => dispatch => {
-    dispatch(startCreateData(resource, requestBody, target));
+    dispatch(createDataStart(target));
 
+    postData(resource, requestBody)
+        .then(response => {
+            if (response.status >= 200 && response.status < 300)
+                return response.json();
+            else throw new Error(`${response.status} ${response.statusText}`);
+        })
+        .then(result => dispatch(createDataSuccess(result, target)))
+        .catch(errorMessage => dispatch(createDataFail(errorMessage, target)));
+};
+
+const createDataStart = target => {
     return {
-        type: ActionTypes.CREATE_DATA,
+        type: ActionTypes.REQUEST_DATA_START,
         target
     };
 };
@@ -73,17 +84,6 @@ const createDataFail = (errorMessage, target) => {
     };
 };
 
-const startCreateData = (resource, requestBody, target) => dispatch => {
-    postData(resource, requestBody)
-        .then(response => {
-            if (response.status >= 200 && response.status < 300)
-                return response.json();
-            else throw new Error(`${response.status} ${response.statusText}`);
-        })
-        .then(result => dispatch(createDataSuccess(result, target)))
-        .catch(errorMessage => dispatch(createDataFail(errorMessage, target)));
-};
-
 /**
  * Performs a PUT request to server and updates data in server
  * @param {string} resource API resource to be requested
@@ -97,10 +97,21 @@ export const updateData = (
     requestBody,
     target
 ) => dispatch => {
-    dispatch(startUpdateData(resource, params, requestBody, target));
+    dispatch(updateDataStart(target));
 
+    putData(resource, params, requestBody)
+        .then(response => {
+            if (response.status >= 200 && response.status < 300)
+                return response.json();
+            else throw new Error(`${response.status} ${response.statusText}`);
+        })
+        .then(result => dispatch(updateDataSuccess(result, target)))
+        .catch(errorMessage => dispatch(updateDataFail(errorMessage, target)));
+};
+
+const updateDataStart = target => {
     return {
-        type: ActionTypes.UPDATE_DATA,
+        type: ActionTypes.UPDATE_DATA_START,
         target
     };
 };
@@ -121,17 +132,6 @@ const updateDataFail = (errorMessage, target) => {
     };
 };
 
-const startUpdateData = (resource, params, requestBody, target) => dispatch => {
-    putData(resource, params, requestBody)
-        .then(response => {
-            if (response.status >= 200 && response.status < 300)
-                return response.json();
-            else throw new Error(`${response.status} ${response.statusText}`);
-        })
-        .then(result => dispatch(updateDataSuccess(result, target)))
-        .catch(errorMessage => dispatch(updateDataFail(errorMessage, target)));
-};
-
 /**
  * Performs a DELETE request to server and remove data in server
  * @param {string} resource API resource to request
@@ -139,10 +139,21 @@ const startUpdateData = (resource, params, requestBody, target) => dispatch => {
  * @param {string} target Allocated name for the request result in "data" state
  */
 export const removeData = (resource, params, target) => dispatch => {
-    dispatch(startRemoveData(resource, params, target));
+    dispatch(removeDataStart(target));
 
+    deleteData(resource, params)
+        .then(response => {
+            if (response.status >= 200 && response.status < 300)
+                return response.json();
+            else throw new Error(`${response.status} ${response.statusText}`);
+        })
+        .then(result => dispatch(removeDataSuccess(result, target)))
+        .catch(errorMessage => dispatch(removeDataFail(errorMessage, target)));
+};
+
+const removeDataStart = target => {
     return {
-        type: ActionTypes.REMOVE_DATA,
+        type: ActionTypes.REMOVE_DATA_START,
         target
     };
 };
@@ -161,15 +172,4 @@ const removeDataFail = (errorMessage, target) => {
         errorMessage,
         target
     };
-};
-
-const startRemoveData = (resource, params, target) => dispatch => {
-    deleteData(resource, params)
-        .then(response => {
-            if (response.status >= 200 && response.status < 300)
-                return response.json();
-            else throw new Error(`${response.status} ${response.statusText}`);
-        })
-        .then(result => dispatch(removeDataSuccess(result, target)))
-        .catch(errorMessage => dispatch(removeDataFail(errorMessage, target)));
 };
